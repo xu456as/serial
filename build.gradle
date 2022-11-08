@@ -1,0 +1,65 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.1.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.serialgroup'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2')
+    compile('mysql:mysql-connector-java:8.0.30')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+
+    //数据库
+    //日志
+    compile group: 'log4j', name: 'log4j', version: '1.2.17'
+
+
+}
+
+//mybatis generator plugin ------ start
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "gradle.plugin.com.arenagod.gradle:mybatis-generator-plugin:1.4"
+    }
+}
+
+apply plugin: "com.arenagod.gradle.MybatisGenerator"
+
+configurations {
+    mybatisGenerator
+}
+
+dependencies {
+    mybatisGenerator ('mysql:mysql-connector-java:8.0.30')
+    mybatisGenerator ('org.mybatis.generator:mybatis-generator-core:1.4.1')
+    mybatisGenerator ('tk.mybatis:mapper:4.2.2')
+}
+
+mybatisGenerator {
+    verbose = true
+    configFile = 'src/main/resources/tools/generatorConfig.xml'
+}
+//mybatis generator plugin ------ end
