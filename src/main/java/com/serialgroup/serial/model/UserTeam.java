@@ -2,29 +2,29 @@ package com.serialgroup.serial.model;
 
 import java.util.Date;
 
-public class ImageMeta {
+public class UserTeam {
     private Long id;
 
     private String groupId;
 
-    private String name;
+    private String token;
 
-    private String fileHash;
+    private Boolean isDeleted;
 
     private Date gmtCreate;
 
     private Date gmtModified;
 
-    public ImageMeta(Long id, String groupId, String name, String fileHash, Date gmtCreate, Date gmtModified) {
+    public UserTeam(Long id, String groupId, String token, Boolean isDeleted, Date gmtCreate, Date gmtModified) {
         this.id = id;
         this.groupId = groupId;
-        this.name = name;
-        this.fileHash = fileHash;
+        this.token = token;
+        this.isDeleted = isDeleted;
         this.gmtCreate = gmtCreate;
         this.gmtModified = gmtModified;
     }
 
-    public ImageMeta() {
+    public UserTeam() {
         super();
     }
 
@@ -44,20 +44,20 @@ public class ImageMeta {
         this.groupId = groupId == null ? null : groupId.trim();
     }
 
-    public String getName() {
-        return name;
+    public String getToken() {
+        return token;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setToken(String token) {
+        this.token = token == null ? null : token.trim();
     }
 
-    public String getFileHash() {
-        return fileHash;
+    public Boolean getIsDeleted() {
+        return isDeleted;
     }
 
-    public void setFileHash(String fileHash) {
-        this.fileHash = fileHash == null ? null : fileHash.trim();
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public Date getGmtCreate() {

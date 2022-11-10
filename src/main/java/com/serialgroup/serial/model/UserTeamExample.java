@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ImageMetaExample {
+public class UserTeamExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public ImageMetaExample() {
+    public UserTeamExample() {
         oredCriteria = new ArrayList<>();
     }
 
@@ -235,143 +235,133 @@ public class ImageMetaExample {
             return (Criteria) this;
         }
 
-        public Criteria andNameIsNull() {
-            addCriterion("name is null");
+        public Criteria andTokenIsNull() {
+            addCriterion("token is null");
             return (Criteria) this;
         }
 
-        public Criteria andNameIsNotNull() {
-            addCriterion("name is not null");
+        public Criteria andTokenIsNotNull() {
+            addCriterion("token is not null");
             return (Criteria) this;
         }
 
-        public Criteria andNameEqualTo(String value) {
-            addCriterion("name =", value, "name");
+        public Criteria andTokenEqualTo(String value) {
+            addCriterion("token =", value, "token");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotEqualTo(String value) {
-            addCriterion("name <>", value, "name");
+        public Criteria andTokenNotEqualTo(String value) {
+            addCriterion("token <>", value, "token");
             return (Criteria) this;
         }
 
-        public Criteria andNameGreaterThan(String value) {
-            addCriterion("name >", value, "name");
+        public Criteria andTokenGreaterThan(String value) {
+            addCriterion("token >", value, "token");
             return (Criteria) this;
         }
 
-        public Criteria andNameGreaterThanOrEqualTo(String value) {
-            addCriterion("name >=", value, "name");
+        public Criteria andTokenGreaterThanOrEqualTo(String value) {
+            addCriterion("token >=", value, "token");
             return (Criteria) this;
         }
 
-        public Criteria andNameLessThan(String value) {
-            addCriterion("name <", value, "name");
+        public Criteria andTokenLessThan(String value) {
+            addCriterion("token <", value, "token");
             return (Criteria) this;
         }
 
-        public Criteria andNameLessThanOrEqualTo(String value) {
-            addCriterion("name <=", value, "name");
+        public Criteria andTokenLessThanOrEqualTo(String value) {
+            addCriterion("token <=", value, "token");
             return (Criteria) this;
         }
 
-        public Criteria andNameLike(String value) {
-            addCriterion("name like", value, "name");
+        public Criteria andTokenLike(String value) {
+            addCriterion("token like", value, "token");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotLike(String value) {
-            addCriterion("name not like", value, "name");
+        public Criteria andTokenNotLike(String value) {
+            addCriterion("token not like", value, "token");
             return (Criteria) this;
         }
 
-        public Criteria andNameIn(List<String> values) {
-            addCriterion("name in", values, "name");
+        public Criteria andTokenIn(List<String> values) {
+            addCriterion("token in", values, "token");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotIn(List<String> values) {
-            addCriterion("name not in", values, "name");
+        public Criteria andTokenNotIn(List<String> values) {
+            addCriterion("token not in", values, "token");
             return (Criteria) this;
         }
 
-        public Criteria andNameBetween(String value1, String value2) {
-            addCriterion("name between", value1, value2, "name");
+        public Criteria andTokenBetween(String value1, String value2) {
+            addCriterion("token between", value1, value2, "token");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotBetween(String value1, String value2) {
-            addCriterion("name not between", value1, value2, "name");
+        public Criteria andTokenNotBetween(String value1, String value2) {
+            addCriterion("token not between", value1, value2, "token");
             return (Criteria) this;
         }
 
-        public Criteria andFileHashIsNull() {
-            addCriterion("file_hash is null");
+        public Criteria andIsDeletedIsNull() {
+            addCriterion("is_deleted is null");
             return (Criteria) this;
         }
 
-        public Criteria andFileHashIsNotNull() {
-            addCriterion("file_hash is not null");
+        public Criteria andIsDeletedIsNotNull() {
+            addCriterion("is_deleted is not null");
             return (Criteria) this;
         }
 
-        public Criteria andFileHashEqualTo(String value) {
-            addCriterion("file_hash =", value, "fileHash");
+        public Criteria andIsDeletedEqualTo(Boolean value) {
+            addCriterion("is_deleted =", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andFileHashNotEqualTo(String value) {
-            addCriterion("file_hash <>", value, "fileHash");
+        public Criteria andIsDeletedNotEqualTo(Boolean value) {
+            addCriterion("is_deleted <>", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andFileHashGreaterThan(String value) {
-            addCriterion("file_hash >", value, "fileHash");
+        public Criteria andIsDeletedGreaterThan(Boolean value) {
+            addCriterion("is_deleted >", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andFileHashGreaterThanOrEqualTo(String value) {
-            addCriterion("file_hash >=", value, "fileHash");
+        public Criteria andIsDeletedGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_deleted >=", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andFileHashLessThan(String value) {
-            addCriterion("file_hash <", value, "fileHash");
+        public Criteria andIsDeletedLessThan(Boolean value) {
+            addCriterion("is_deleted <", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andFileHashLessThanOrEqualTo(String value) {
-            addCriterion("file_hash <=", value, "fileHash");
+        public Criteria andIsDeletedLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_deleted <=", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andFileHashLike(String value) {
-            addCriterion("file_hash like", value, "fileHash");
+        public Criteria andIsDeletedIn(List<Boolean> values) {
+            addCriterion("is_deleted in", values, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andFileHashNotLike(String value) {
-            addCriterion("file_hash not like", value, "fileHash");
+        public Criteria andIsDeletedNotIn(List<Boolean> values) {
+            addCriterion("is_deleted not in", values, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andFileHashIn(List<String> values) {
-            addCriterion("file_hash in", values, "fileHash");
+        public Criteria andIsDeletedBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_deleted between", value1, value2, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andFileHashNotIn(List<String> values) {
-            addCriterion("file_hash not in", values, "fileHash");
-            return (Criteria) this;
-        }
-
-        public Criteria andFileHashBetween(String value1, String value2) {
-            addCriterion("file_hash between", value1, value2, "fileHash");
-            return (Criteria) this;
-        }
-
-        public Criteria andFileHashNotBetween(String value1, String value2) {
-            addCriterion("file_hash not between", value1, value2, "fileHash");
+        public Criteria andIsDeletedNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_deleted not between", value1, value2, "isDeleted");
             return (Criteria) this;
         }
 

@@ -8,7 +8,7 @@ select  * from  user_group;
 
 use serial;
 drop  table `user_group`;
-CREATE TABLE `user_group`
+CREATE TABLE `user_team`
 (
     `id`           bigint AUTO_INCREMENT comment '主键id',
     `group_id`     varchar(64) NOT NULL DEFAULT '' COMMENT '凭证',
@@ -24,11 +24,12 @@ CREATE TABLE `user_group`
   default charset = 'utf8'
   AUTO_INCREMENT = 1 comment '用户组';
 
-
+drop table image_meta;
 CREATE TABLE image_meta
 (
     `id`           bigint AUTO_INCREMENT comment '主键id',
     `group_id`     varchar(64) NOT NULL DEFAULT '' COMMENT '凭证',
+    `name`         varchar(64) NOT NULL DEFAULT '' COMMENT '',
     `file_hash`    varchar(64) NOT NULL DEFAULT '' COMMENT 'file_hash',
     `gmt_create`   datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `gmt_modified` datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
