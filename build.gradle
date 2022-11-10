@@ -22,6 +22,9 @@ repositories {
     mavenCentral()
 }
 dependencies {
+    // https://mvnrepository.com/artifact/io.netty/netty-all
+    implementation 'io.netty:netty-all:4.0.34.Final'
+    compile("org.projectlombok:lombok:1.18.16")
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2')
     compile('mysql:mysql-connector-java:8.0.30')
