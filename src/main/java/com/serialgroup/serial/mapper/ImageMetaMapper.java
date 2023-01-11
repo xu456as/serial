@@ -27,4 +27,6 @@ public interface ImageMetaMapper {
     int updateByPrimaryKeySelective(ImageMeta row);
 
     int updateByPrimaryKey(ImageMeta row);
+
+    Integer selectMaxAnonymousId(String groupId);
 }
