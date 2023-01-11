@@ -7,7 +7,7 @@ CREATE TABLE test
 select  * from  user_group;
 
 use serial;
-drop  table `user_group`;
+-- drop  table `user_group`;
 CREATE TABLE `user_team`
 (
     `id`           bigint AUTO_INCREMENT comment '主键id',
@@ -24,7 +24,7 @@ CREATE TABLE `user_team`
   default charset = 'utf8'
   AUTO_INCREMENT = 1 comment '用户组';
 
-drop table image_meta;
+-- drop table image_meta;
 CREATE TABLE image_meta
 (
     `id`           bigint AUTO_INCREMENT comment '主键id',
@@ -40,5 +40,14 @@ CREATE TABLE image_meta
 ) ENGINE = InnoDB
   default charset = 'utf8'
   AUTO_INCREMENT = 1 comment 'image_meta';
+
+alter table image_meta
+    add column `is_completed` tinyint default 1 comment '是否已完备',
+    add column `priority` int default 50;
+
+alter table image_meta
+    add column `anonymous_id` int default 0 comment '匿名者ID，递增生成',
+    add key `idx_groupid_anonymousid` (`group_id`, `anonymous_id`);
+
 
 

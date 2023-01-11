@@ -494,6 +494,186 @@ public class ImageMetaExample {
             addCriterion("gmt_modified not between", value1, value2, "gmtModified");
             return (Criteria) this;
         }
+
+        public Criteria andIsCompletedIsNull() {
+            addCriterion("is_completed is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCompletedIsNotNull() {
+            addCriterion("is_completed is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCompletedEqualTo(Boolean value) {
+            addCriterion("is_completed =", value, "isCompleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCompletedNotEqualTo(Boolean value) {
+            addCriterion("is_completed <>", value, "isCompleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCompletedGreaterThan(Boolean value) {
+            addCriterion("is_completed >", value, "isCompleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCompletedGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_completed >=", value, "isCompleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCompletedLessThan(Boolean value) {
+            addCriterion("is_completed <", value, "isCompleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCompletedLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_completed <=", value, "isCompleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCompletedIn(List<Boolean> values) {
+            addCriterion("is_completed in", values, "isCompleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCompletedNotIn(List<Boolean> values) {
+            addCriterion("is_completed not in", values, "isCompleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCompletedBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_completed between", value1, value2, "isCompleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCompletedNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_completed not between", value1, value2, "isCompleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriorityIsNull() {
+            addCriterion("priority is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriorityIsNotNull() {
+            addCriterion("priority is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriorityEqualTo(Integer value) {
+            addCriterion("priority =", value, "priority");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriorityNotEqualTo(Integer value) {
+            addCriterion("priority <>", value, "priority");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriorityGreaterThan(Integer value) {
+            addCriterion("priority >", value, "priority");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriorityGreaterThanOrEqualTo(Integer value) {
+            addCriterion("priority >=", value, "priority");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriorityLessThan(Integer value) {
+            addCriterion("priority <", value, "priority");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriorityLessThanOrEqualTo(Integer value) {
+            addCriterion("priority <=", value, "priority");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriorityIn(List<Integer> values) {
+            addCriterion("priority in", values, "priority");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriorityNotIn(List<Integer> values) {
+            addCriterion("priority not in", values, "priority");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriorityBetween(Integer value1, Integer value2) {
+            addCriterion("priority between", value1, value2, "priority");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriorityNotBetween(Integer value1, Integer value2) {
+            addCriterion("priority not between", value1, value2, "priority");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnonymousIdIsNull() {
+            addCriterion("anonymous_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnonymousIdIsNotNull() {
+            addCriterion("anonymous_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnonymousIdEqualTo(Integer value) {
+            addCriterion("anonymous_id =", value, "anonymousId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnonymousIdNotEqualTo(Integer value) {
+            addCriterion("anonymous_id <>", value, "anonymousId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnonymousIdGreaterThan(Integer value) {
+            addCriterion("anonymous_id >", value, "anonymousId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnonymousIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("anonymous_id >=", value, "anonymousId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnonymousIdLessThan(Integer value) {
+            addCriterion("anonymous_id <", value, "anonymousId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnonymousIdLessThanOrEqualTo(Integer value) {
+            addCriterion("anonymous_id <=", value, "anonymousId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnonymousIdIn(List<Integer> values) {
+            addCriterion("anonymous_id in", values, "anonymousId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnonymousIdNotIn(List<Integer> values) {
+            addCriterion("anonymous_id not in", values, "anonymousId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnonymousIdBetween(Integer value1, Integer value2) {
+            addCriterion("anonymous_id between", value1, value2, "anonymousId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnonymousIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("anonymous_id not between", value1, value2, "anonymousId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

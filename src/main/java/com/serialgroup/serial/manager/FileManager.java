@@ -4,7 +4,9 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
@@ -12,6 +14,14 @@ import java.io.FileOutputStream;
 public class FileManager {
 
     private static final String STORAGE_DIR = "./storage/";
+
+    @PostConstruct
+    public void init() {
+        File file = new File(STORAGE_DIR);
+        if (file.isDirectory() || !file.exists()) {
+            file.mkdirs();
+        }
+    }
 
     public byte[] download(String fileHash) throws Exception {
         String filePath = getFilePath(fileHash);

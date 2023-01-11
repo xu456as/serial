@@ -9,6 +9,9 @@
       <arg column="file_hash" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="is_completed" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+      <arg column="priority" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="anonymous_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
     </constructor>
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -70,7 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, group_id, name, file_hash, gmt_create, gmt_modified
+    id, group_id, name, file_hash, gmt_create, gmt_modified, is_completed, priority, 
+    anonymous_id
   </sql>
   <select id="selectByExample" parameterType="com.serialgroup.serial.model.ImageMetaExample" resultMap="BaseResultMap">
     select
@@ -104,9 +108,11 @@
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.serialgroup.serial.model.ImageMeta" useGeneratedKeys="true">
     insert into image_meta (group_id, name, file_hash, 
-      gmt_create, gmt_modified)
+      gmt_create, gmt_modified, is_completed, 
+      priority, anonymous_id)
     values (#{groupId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{fileHash,jdbcType=VARCHAR}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP})
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{isCompleted,jdbcType=TINYINT}, 
+      #{priority,jdbcType=INTEGER}, #{anonymousId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.serialgroup.serial.model.ImageMeta" useGeneratedKeys="true">
     insert into image_meta
@@ -126,6 +132,15 @@
       <if test="gmtModified != null">
         gmt_modified,
       </if>
+      <if test="isCompleted != null">
+        is_completed,
+      </if>
+      <if test="priority != null">
+        priority,
+      </if>
+      <if test="anonymousId != null">
+        anonymous_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="groupId != null">
@@ -142,6 +157,15 @@
       </if>
       <if test="gmtModified != null">
         #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isCompleted != null">
+        #{isCompleted,jdbcType=TINYINT},
+      </if>
+      <if test="priority != null">
+        #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="anonymousId != null">
+        #{anonymousId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -172,6 +196,15 @@
       <if test="row.gmtModified != null">
         gmt_modified = #{row.gmtModified,jdbcType=TIMESTAMP},
       </if>
+      <if test="row.isCompleted != null">
+        is_completed = #{row.isCompleted,jdbcType=TINYINT},
+      </if>
+      <if test="row.priority != null">
+        priority = #{row.priority,jdbcType=INTEGER},
+      </if>
+      <if test="row.anonymousId != null">
+        anonymous_id = #{row.anonymousId,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -184,7 +217,10 @@
       name = #{row.name,jdbcType=VARCHAR},
       file_hash = #{row.fileHash,jdbcType=VARCHAR},
       gmt_create = #{row.gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modified = #{row.gmtModified,jdbcType=TIMESTAMP}
+      gmt_modified = #{row.gmtModified,jdbcType=TIMESTAMP},
+      is_completed = #{row.isCompleted,jdbcType=TINYINT},
+      priority = #{row.priority,jdbcType=INTEGER},
+      anonymous_id = #{row.anonymousId,jdbcType=INTEGER}
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -207,6 +243,15 @@
       <if test="gmtModified != null">
         gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       </if>
+      <if test="isCompleted != null">
+        is_completed = #{isCompleted,jdbcType=TINYINT},
+      </if>
+      <if test="priority != null">
+        priority = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="anonymousId != null">
+        anonymous_id = #{anonymousId,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -216,16 +261,23 @@
       name = #{name,jdbcType=VARCHAR},
       file_hash = #{fileHash,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      is_completed = #{isCompleted,jdbcType=TINYINT},
+      priority = #{priority,jdbcType=INTEGER},
+      anonymous_id = #{anonymousId,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <resultMap id="BaseResultMap" type="com.serialgroup.serial.model.ImageMeta">
     <constructor>
       <idArg column="id" javaType="Long" jdbcType="BIGINT" />
       <arg column="group_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="file_hash" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="is_completed" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+      <arg column="priority" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="anonymous_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
     </constructor>
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -287,7 +339,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, group_id, file_hash, gmt_create, gmt_modified
+    id, group_id, name, file_hash, gmt_create, gmt_modified, is_completed, priority, 
+    anonymous_id
   </sql>
   <select id="selectByExample" parameterType="com.serialgroup.serial.model.ImageMetaExample" resultMap="BaseResultMap">
     select
@@ -320,16 +373,21 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.serialgroup.serial.model.ImageMeta" useGeneratedKeys="true">
-    insert into image_meta (group_id, file_hash, gmt_create, 
-      gmt_modified)
-    values (#{groupId,jdbcType=VARCHAR}, #{fileHash,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
-      #{gmtModified,jdbcType=TIMESTAMP})
+    insert into image_meta (group_id, name, file_hash, 
+      gmt_create, gmt_modified, is_completed, 
+      priority, anonymous_id)
+    values (#{groupId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{fileHash,jdbcType=VARCHAR}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{isCompleted,jdbcType=TINYINT}, 
+      #{priority,jdbcType=INTEGER}, #{anonymousId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.serialgroup.serial.model.ImageMeta" useGeneratedKeys="true">
     insert into image_meta
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="groupId != null">
         group_id,
+      </if>
+      <if test="name != null">
+        name,
       </if>
       <if test="fileHash != null">
         file_hash,
@@ -340,10 +398,22 @@
       <if test="gmtModified != null">
         gmt_modified,
       </if>
+      <if test="isCompleted != null">
+        is_completed,
+      </if>
+      <if test="priority != null">
+        priority,
+      </if>
+      <if test="anonymousId != null">
+        anonymous_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="groupId != null">
         #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
       </if>
       <if test="fileHash != null">
         #{fileHash,jdbcType=VARCHAR},
@@ -353,6 +423,15 @@
       </if>
       <if test="gmtModified != null">
         #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isCompleted != null">
+        #{isCompleted,jdbcType=TINYINT},
+      </if>
+      <if test="priority != null">
+        #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="anonymousId != null">
+        #{anonymousId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -371,6 +450,9 @@
       <if test="row.groupId != null">
         group_id = #{row.groupId,jdbcType=VARCHAR},
       </if>
+      <if test="row.name != null">
+        name = #{row.name,jdbcType=VARCHAR},
+      </if>
       <if test="row.fileHash != null">
         file_hash = #{row.fileHash,jdbcType=VARCHAR},
       </if>
@@ -379,6 +461,15 @@
       </if>
       <if test="row.gmtModified != null">
         gmt_modified = #{row.gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="row.isCompleted != null">
+        is_completed = #{row.isCompleted,jdbcType=TINYINT},
+      </if>
+      <if test="row.priority != null">
+        priority = #{row.priority,jdbcType=INTEGER},
+      </if>
+      <if test="row.anonymousId != null">
+        anonymous_id = #{row.anonymousId,jdbcType=INTEGER},
       </if>
     </set>
     <if test="example != null">
@@ -389,9 +480,13 @@
     update image_meta
     set id = #{row.id,jdbcType=BIGINT},
       group_id = #{row.groupId,jdbcType=VARCHAR},
+      name = #{row.name,jdbcType=VARCHAR},
       file_hash = #{row.fileHash,jdbcType=VARCHAR},
       gmt_create = #{row.gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modified = #{row.gmtModified,jdbcType=TIMESTAMP}
+      gmt_modified = #{row.gmtModified,jdbcType=TIMESTAMP},
+      is_completed = #{row.isCompleted,jdbcType=TINYINT},
+      priority = #{row.priority,jdbcType=INTEGER},
+      anonymous_id = #{row.anonymousId,jdbcType=INTEGER}
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -402,6 +497,9 @@
       <if test="groupId != null">
         group_id = #{groupId,jdbcType=VARCHAR},
       </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
       <if test="fileHash != null">
         file_hash = #{fileHash,jdbcType=VARCHAR},
       </if>
@@ -411,24 +509,41 @@
       <if test="gmtModified != null">
         gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       </if>
+      <if test="isCompleted != null">
+        is_completed = #{isCompleted,jdbcType=TINYINT},
+      </if>
+      <if test="priority != null">
+        priority = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="anonymousId != null">
+        anonymous_id = #{anonymousId,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.serialgroup.serial.model.ImageMeta">
     update image_meta
     set group_id = #{groupId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
       file_hash = #{fileHash,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      is_completed = #{isCompleted,jdbcType=TINYINT},
+      priority = #{priority,jdbcType=INTEGER},
+      anonymous_id = #{anonymousId,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <resultMap id="BaseResultMap" type="com.serialgroup.serial.model.ImageMeta">
     <constructor>
       <idArg column="id" javaType="Long" jdbcType="BIGINT" />
       <arg column="group_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="file_hash" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="is_completed" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+      <arg column="priority" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="anonymous_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
     </constructor>
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -490,7 +605,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, group_id, file_hash, gmt_create, gmt_modified
+    id, group_id, name, file_hash, gmt_create, gmt_modified, is_completed, priority, 
+    anonymous_id
   </sql>
   <select id="selectByExample" parameterType="com.serialgroup.serial.model.ImageMetaExample" resultMap="BaseResultMap">
     select
@@ -523,16 +639,21 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.serialgroup.serial.model.ImageMeta" useGeneratedKeys="true">
-    insert into image_meta (group_id, file_hash, gmt_create, 
-      gmt_modified)
-    values (#{groupId,jdbcType=VARCHAR}, #{fileHash,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
-      #{gmtModified,jdbcType=TIMESTAMP})
+    insert into image_meta (group_id, name, file_hash, 
+      gmt_create, gmt_modified, is_completed, 
+      priority, anonymous_id)
+    values (#{groupId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{fileHash,jdbcType=VARCHAR}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{isCompleted,jdbcType=TINYINT}, 
+      #{priority,jdbcType=INTEGER}, #{anonymousId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.serialgroup.serial.model.ImageMeta" useGeneratedKeys="true">
     insert into image_meta
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="groupId != null">
         group_id,
+      </if>
+      <if test="name != null">
+        name,
       </if>
       <if test="fileHash != null">
         file_hash,
@@ -543,10 +664,22 @@
       <if test="gmtModified != null">
         gmt_modified,
       </if>
+      <if test="isCompleted != null">
+        is_completed,
+      </if>
+      <if test="priority != null">
+        priority,
+      </if>
+      <if test="anonymousId != null">
+        anonymous_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="groupId != null">
         #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
       </if>
       <if test="fileHash != null">
         #{fileHash,jdbcType=VARCHAR},
@@ -556,6 +689,15 @@
       </if>
       <if test="gmtModified != null">
         #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isCompleted != null">
+        #{isCompleted,jdbcType=TINYINT},
+      </if>
+      <if test="priority != null">
+        #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="anonymousId != null">
+        #{anonymousId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -574,6 +716,9 @@
       <if test="row.groupId != null">
         group_id = #{row.groupId,jdbcType=VARCHAR},
       </if>
+      <if test="row.name != null">
+        name = #{row.name,jdbcType=VARCHAR},
+      </if>
       <if test="row.fileHash != null">
         file_hash = #{row.fileHash,jdbcType=VARCHAR},
       </if>
@@ -582,6 +727,15 @@
       </if>
       <if test="row.gmtModified != null">
         gmt_modified = #{row.gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="row.isCompleted != null">
+        is_completed = #{row.isCompleted,jdbcType=TINYINT},
+      </if>
+      <if test="row.priority != null">
+        priority = #{row.priority,jdbcType=INTEGER},
+      </if>
+      <if test="row.anonymousId != null">
+        anonymous_id = #{row.anonymousId,jdbcType=INTEGER},
       </if>
     </set>
     <if test="example != null">
@@ -592,9 +746,13 @@
     update image_meta
     set id = #{row.id,jdbcType=BIGINT},
       group_id = #{row.groupId,jdbcType=VARCHAR},
+      name = #{row.name,jdbcType=VARCHAR},
       file_hash = #{row.fileHash,jdbcType=VARCHAR},
       gmt_create = #{row.gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modified = #{row.gmtModified,jdbcType=TIMESTAMP}
+      gmt_modified = #{row.gmtModified,jdbcType=TIMESTAMP},
+      is_completed = #{row.isCompleted,jdbcType=TINYINT},
+      priority = #{row.priority,jdbcType=INTEGER},
+      anonymous_id = #{row.anonymousId,jdbcType=INTEGER}
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -605,6 +763,9 @@
       <if test="groupId != null">
         group_id = #{groupId,jdbcType=VARCHAR},
       </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
       <if test="fileHash != null">
         file_hash = #{fileHash,jdbcType=VARCHAR},
       </if>
@@ -614,15 +775,28 @@
       <if test="gmtModified != null">
         gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       </if>
+      <if test="isCompleted != null">
+        is_completed = #{isCompleted,jdbcType=TINYINT},
+      </if>
+      <if test="priority != null">
+        priority = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="anonymousId != null">
+        anonymous_id = #{anonymousId,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.serialgroup.serial.model.ImageMeta">
     update image_meta
     set group_id = #{groupId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
       file_hash = #{fileHash,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      is_completed = #{isCompleted,jdbcType=TINYINT},
+      priority = #{priority,jdbcType=INTEGER},
+      anonymous_id = #{anonymousId,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

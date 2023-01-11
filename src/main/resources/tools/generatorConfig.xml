@@ -93,11 +93,12 @@
         <table tableName="image_meta" domainObjectName="ImageMeta">
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
             <columnOverride column="id" javaType="Long"/>
+            <columnOverride column="is_completed" javaType="java.lang.Boolean" />
         </table>
-<!--        <table tableName="user_team" domainObjectName="UserTeam">-->
-<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
-<!--            <columnOverride column="is_deleted" javaType="java.lang.Boolean" />-->
-<!--        </table>-->
+        <table tableName="user_team" domainObjectName="UserTeam">
+            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
+            <columnOverride column="is_deleted" javaType="java.lang.Boolean" />
+        </table>
 <!--        <table tableName="t_user" domainObjectName="User">-->
 
 <!--            &lt;!&ndash;用来修改表中某个列的属性,一个table元素中可以有多个columnOverride元素哈.-->

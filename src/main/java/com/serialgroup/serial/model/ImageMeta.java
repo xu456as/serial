@@ -15,13 +15,22 @@ public class ImageMeta {
 
     private Date gmtModified;
 
-    public ImageMeta(Long id, String groupId, String name, String fileHash, Date gmtCreate, Date gmtModified) {
+    private Boolean isCompleted;
+
+    private Integer priority;
+
+    private Integer anonymousId;
+
+    public ImageMeta(Long id, String groupId, String name, String fileHash, Date gmtCreate, Date gmtModified, Boolean isCompleted, Integer priority, Integer anonymousId) {
         this.id = id;
         this.groupId = groupId;
         this.name = name;
         this.fileHash = fileHash;
         this.gmtCreate = gmtCreate;
         this.gmtModified = gmtModified;
+        this.isCompleted = isCompleted;
+        this.priority = priority;
+        this.anonymousId = anonymousId;
     }
 
     public ImageMeta() {
@@ -74,5 +83,29 @@ public class ImageMeta {
 
     public void setGmtModified(Date gmtModified) {
         this.gmtModified = gmtModified;
+    }
+
+    public Boolean getIsCompleted() {
+        return isCompleted;
+    }
+
+    public void setIsCompleted(Boolean isCompleted) {
+        this.isCompleted = isCompleted;
+    }
+
+    public Integer getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Integer priority) {
+        this.priority = priority;
+    }
+
+    public Integer getAnonymousId() {
+        return anonymousId;
+    }
+
+    public void setAnonymousId(Integer anonymousId) {
+        this.anonymousId = anonymousId;
     }
 }

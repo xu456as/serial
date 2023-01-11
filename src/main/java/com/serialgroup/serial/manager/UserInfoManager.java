@@ -13,11 +13,11 @@ import java.util.List;
 @Component
 public class UserInfoManager {
     @Resource
-    private UserTeamMapper userGroupMapper;
+    private UserTeamMapper userTeamMapper;
     public boolean checkToken(String groupId, String token) {
         UserTeamExample example = new UserTeamExample();
         example.createCriteria().andGroupIdEqualTo(groupId).andIsDeletedEqualTo(false);
-        List<UserTeam> userTeams = userGroupMapper.selectByExample(example);
+        List<UserTeam> userTeams = userTeamMapper.selectByExample(example);
         if (CollectionUtils.isEmpty(userTeams)) {
             return false;
         }
