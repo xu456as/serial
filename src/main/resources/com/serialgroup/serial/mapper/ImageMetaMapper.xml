@@ -270,7 +270,7 @@
 
 <!--  Integer selectMaxAnonymousId(String groupId);-->
   <select id="selectMaxAnonymousId" resultType="java.lang.Integer">
-    SELECT `anonymous_id`
+    SELECT MAX(`anonymous_id`)
     FROM `image_meta`
     WHERE `group_id` = #{groupId}
   </select>

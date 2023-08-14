@@ -60,6 +60,7 @@ public class VoiceRecognizeManager {
         return parseVO((String) rsp.result);
     }
 
+//    TODO
     public String recognizeName(byte[] bytes) {
         BaseSpeechRecognizer sr = Sdk.GetSpeechRecognizer(host, port, protocol);
         byte[] rawBytes = bytes;

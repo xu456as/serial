@@ -1,12 +1,15 @@
 package com.serialgroup.serial.controller;
 
+import com.serialgroup.serial.dto.AnonymityMatchDTO;
 import com.serialgroup.serial.manager.FileManager;
 import com.serialgroup.serial.manager.ImageMetaManager;
 import com.serialgroup.serial.manager.UserInfoManager;
 import com.serialgroup.serial.manager.VoiceRecognizeManager;
 import com.serialgroup.serial.model.ImageMeta;
+import com.serialgroup.serial.util.AsrtUtil;
 import com.serialgroup.serial.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
+import net.ailemon.asrt.sdk.models.Wave;
 import org.apache.tomcat.util.http.fileupload.FileItem;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
@@ -98,11 +101,21 @@ public class SerialController {
                                                  @RequestHeader String groupId,
                                                  @RequestPart("voiceInput") MultipartFile voiceInput) throws Exception {
         validate(token, groupId);
-        String nickName = voiceRecognizeManager.recognizeName(voiceInput.getBytes());
-        if (nickName == null) {
-            return ResponseEntity.badRequest().build();
+        //todo
+        AnonymityMatchDTO dto = AsrtUtil.INST.recognizeAnonymity(voiceInput.getBytes(), 16000, 1, 1);
+        if (dto == null) {
+            return ResponseEntity.ok(0);
         }
-        return null;
+        String name = dto.getName();
+        int id = dto.getAnonymousId();
+        int result = imageMetaManager.updateAnonymous(groupId, id, name);
+        return ResponseEntity.ok(result);
+
+//        String nickName = voiceRecognizeManager.recognizeName(voiceInput.getBytes());
+//        if (nickName == null) {
+//            return ResponseEntity.badRequest().build();
+//        }
+//        return null;
 //        String fileHash = DigestUtils.md5DigestAsHex(file.getBytes());
 //        fileManager.save(fileHash, file.getBytes());
 //        int affectNum = imageMetaManager.addImage(groupId, fileHash, nickName);
@@ -124,6 +137,37 @@ public class SerialController {
         String fileHash = DigestUtils.md5DigestAsHex(file.getBytes());
         fileManager.save(fileHash, file.getBytes());
         int affectNum = imageMetaManager.addImage(groupId, fileHash, nickName);
+        return ResponseEntity.ok(affectNum);
+    }
+
+    @PostMapping(path = "/image/recognizeAnonymousStg1")
+    public ResponseEntity<AnonymityMatchDTO> recognizeAnonymousStg1(@RequestHeader String token,
+                                                   @RequestHeader String groupId,
+                                                   @RequestPart("voiceInput") MultipartFile file) throws Exception {
+        validate(token, groupId);
+        byte[] bytes = file.getBytes();
+        String fileHash = DigestUtils.md5DigestAsHex(bytes);
+        Wave wav = new Wave();
+        wav.deserialize(file.getBytes());
+        byte[] sampleBytes = wav.getRawSamples();
+        int sampleRate = wav.sampleRate;
+        int channels = wav.channels;
+        int byteWidth = wav.sampleWidth;
+        AnonymityMatchDTO dto = AsrtUtil.INST.recognizeAnonymity(sampleBytes, sampleRate, channels, byteWidth);
+        return ResponseEntity.ok(dto);
+    }
+
+    @PostMapping(path = "/image/recognizeAnonymousStg2")
+    public ResponseEntity<Integer> recognizeAnonymousStg2(@RequestHeader String token,
+                                                                    @RequestHeader String groupId,
+                                                                    @RequestParam("name") String name,
+                                                                    @RequestParam("anonymousId") Integer anonymousId,
+                                                                    @RequestParam("ack") Boolean ack) throws Exception {
+        validate(token, groupId);
+        int affectNum = 0;
+        if (ack == true) {
+            affectNum = imageMetaManager.updateAnonymous(groupId, anonymousId, name);
+        }
         return ResponseEntity.ok(affectNum);
     }
 
