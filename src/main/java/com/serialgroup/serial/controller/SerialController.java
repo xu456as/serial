@@ -165,7 +165,7 @@ public class SerialController {
                                                                     @RequestParam("ack") Boolean ack) throws Exception {
         validate(token, groupId);
         int affectNum = 0;
-        if (ack == true) {
+        if (ack) {
             affectNum = imageMetaManager.updateAnonymous(groupId, anonymousId, name);
         }
         return ResponseEntity.ok(affectNum);

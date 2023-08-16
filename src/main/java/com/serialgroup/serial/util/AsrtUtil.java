@@ -20,7 +20,7 @@ public class AsrtUtil {
     public static final AsrtUtil INST;
 
     private static final String asrtHost = "127.0.0.1";
-    private static final String asrtProtocol = "protocol";
+    private static final String asrtProtocol = "http";
     private static final int asrtPort = 2001;
 
     private static final BaseSpeechRecognizer sr;
