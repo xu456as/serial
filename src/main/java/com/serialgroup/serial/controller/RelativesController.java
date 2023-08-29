@@ -7,18 +7,12 @@ import com.serialgroup.serial.manager.UserInfoManager;
 import com.serialgroup.serial.manager.VoiceRecognizeManager;
 import com.serialgroup.serial.model.ImageMeta;
 import com.serialgroup.serial.util.AsrtUtil;
+import com.serialgroup.serial.util.BdVoiceUtil;
 import com.serialgroup.serial.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
-import net.ailemon.asrt.sdk.models.Wave;
-import org.apache.tomcat.util.http.fileupload.FileItem;
-import org.apache.tomcat.util.http.fileupload.FileUploadException;
-import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
-import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
-import org.apache.tomcat.util.http.fileupload.servlet.ServletRequestContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.DigestUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,7 +26,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequestMapping("/api/serial")
-public class SerialController {
+public class RelativesController {
 
     @Resource
     private ImageMetaManager imageMetaManager;
@@ -46,7 +40,7 @@ public class SerialController {
     private FileManager fileManager;
 
     @PostMapping(path = "/image/list_all")
-    public ResponseEntity<List<ImageMeta>> listAll(@RequestHeader String token,
+    public ResponseEntity<List<ImageMeta>> listInfo(@RequestHeader String token,
                                                    @RequestHeader String groupId) {
         validate(token, groupId);
         List<ImageMeta> imageMetas = imageMetaManager.listImageMetaByToken(groupId);
@@ -55,14 +49,14 @@ public class SerialController {
                 if (imageMeta.getIsCompleted()) {
                     continue;
                 }
-                imageMeta.setName(String.format("%s%d", "陌生人", imageMeta.getAnonymousId()));
+                imageMeta.setName(String.format("%d号陌生人", imageMeta.getAnonymousId()));
             }
         }
         return ResponseEntity.ok(imageMetas);
     }
 
     @PostMapping(path = "/image/delete")
-    public ResponseEntity<Integer> deleteImage(@RequestHeader String token,
+    public ResponseEntity<Integer> deleteInfo(@RequestHeader String token,
                                                @RequestHeader String groupId,
                                                @RequestParam String fileHash) {
         validate(token, groupId);
@@ -146,14 +140,7 @@ public class SerialController {
                                                    @RequestPart("voiceInput") MultipartFile file) throws Exception {
         validate(token, groupId);
         byte[] bytes = file.getBytes();
-        String fileHash = DigestUtils.md5DigestAsHex(bytes);
-        Wave wav = new Wave();
-        wav.deserialize(file.getBytes());
-        byte[] sampleBytes = wav.getRawSamples();
-        int sampleRate = wav.sampleRate;
-        int channels = wav.channels;
-        int byteWidth = wav.sampleWidth;
-        AnonymityMatchDTO dto = AsrtUtil.INST.recognizeAnonymity(sampleBytes, sampleRate, channels, byteWidth);
+        AnonymityMatchDTO dto = BdVoiceUtil.INST.recognizeAnonymity(bytes, 16000, 1, 2);
         return ResponseEntity.ok(dto);
     }
 
@@ -173,8 +160,23 @@ public class SerialController {
 
     @RequestMapping("/image/uploadWx")
     @ResponseBody
-    public ResponseEntity<Integer> upload(@RequestHeader String token,
+    public ResponseEntity<Integer> uploadInfo(@RequestHeader String token,
                                           @RequestHeader String groupId,
+                                          @RequestParam("nickName") String nickName,
+                                          @RequestPart("image") MultipartFile file) throws Exception {
+        validate(token, groupId);
+        byte[] bytes = file.getBytes();
+        String fileHash = DigestUtils.md5DigestAsHex(bytes);
+        fileManager.save(fileHash, bytes);
+        int affectNum = imageMetaManager.addImage(groupId, fileHash, nickName);
+        return ResponseEntity.ok(affectNum);
+    }
+
+    @RequestMapping("/image/updateWx")
+    @ResponseBody
+    public ResponseEntity<Integer> updateInfo(@RequestHeader String token,
+                                          @RequestHeader String groupId,
+                                              Long id,
                                           @RequestParam("nickName") String nickName,
                                           @RequestPart("image") MultipartFile file) throws Exception {
         validate(token, groupId);
