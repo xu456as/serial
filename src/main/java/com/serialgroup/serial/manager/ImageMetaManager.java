@@ -1,9 +1,8 @@
 package com.serialgroup.serial.manager;
 
 import com.serialgroup.serial.mapper.ImageMetaMapper;
-import com.serialgroup.serial.model.ImageMeta;
+import com.serialgroup.serial.model.RelativesMeta;
 import com.serialgroup.serial.model.ImageMetaExample;
-import io.netty.util.internal.StringUtil;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -14,7 +13,7 @@ public class ImageMetaManager {
 
     @Resource
     private ImageMetaMapper imageMetaMapper;
-    public List<ImageMeta> listImageMetaByToken(String groupId) {
+    public List<RelativesMeta> listRelativesMetaByToken(String groupId) {
         ImageMetaExample example = new ImageMetaExample();
         example.createCriteria().andGroupIdEqualTo(groupId);
         return imageMetaMapper.selectByExample(example);
@@ -25,39 +24,57 @@ public class ImageMetaManager {
         example.createCriteria().andGroupIdEqualTo(groupId)
                 .andAnonymousIdEqualTo(anonymousId)
                 .andIsCompletedEqualTo(false);
-        ImageMeta imageMeta = new ImageMeta();
-        imageMeta.setPriority(50);
-        imageMeta.setAnonymousId(0);
-        imageMeta.setIsCompleted(true);
-        imageMeta.setName(nickName);
-        return imageMetaMapper.updateByExampleSelective(imageMeta, example);
+        RelativesMeta relativesMeta = new RelativesMeta();
+        relativesMeta.setPriority(50);
+        relativesMeta.setAnonymousId(0);
+        relativesMeta.setIsCompleted(true);
+        relativesMeta.setName(nickName);
+        return imageMetaMapper.updateByExampleSelective(relativesMeta, example);
     }
 
     public int addAnonymous(String groupId, String fileHash) {
         int maxId = imageMetaMapper.selectMaxAnonymousId(groupId);
-        ImageMeta imageMeta = new ImageMeta();
-        imageMeta.setFileHash(fileHash);
-        imageMeta.setGroupId(groupId);
-        imageMeta.setName("");
-        imageMeta.setPriority(0);
-        imageMeta.setIsCompleted(false);
-        imageMeta.setAnonymousId(maxId + 1);
-        return imageMetaMapper.insertSelective(imageMeta);
+        RelativesMeta relativesMeta = new RelativesMeta();
+        relativesMeta.setFileHash(fileHash);
+        relativesMeta.setGroupId(groupId);
+        relativesMeta.setName("");
+        relativesMeta.setPriority(0);
+        relativesMeta.setIsCompleted(false);
+        relativesMeta.setAnonymousId(maxId + 1);
+        return imageMetaMapper.insertSelective(relativesMeta);
     }
     public int addImage(String groupId, String fileHash, String nickName) {
-        ImageMeta imageMeta = new ImageMeta();
-        imageMeta.setFileHash(fileHash);
-        imageMeta.setGroupId(groupId);
-        imageMeta.setName(nickName);
-        imageMeta.setPriority(50);
-        imageMeta.setIsCompleted(true);
-        imageMeta.setAnonymousId(0);
-        return imageMetaMapper.insertSelective(imageMeta);
+        RelativesMeta relativesMeta = new RelativesMeta();
+        relativesMeta.setFileHash(fileHash);
+        relativesMeta.setGroupId(groupId);
+        relativesMeta.setName(nickName);
+        relativesMeta.setPriority(50);
+        relativesMeta.setIsCompleted(true);
+        relativesMeta.setAnonymousId(0);
+        return imageMetaMapper.insertSelective(relativesMeta);
+    }
+
+    public RelativesMeta getById(Long id) {
+        return imageMetaMapper.selectByPrimaryKey(id);
     }
 
     public int delete(String groupId, String fileHash) {
         ImageMetaExample example = new ImageMetaExample();
         example.createCriteria().andGroupIdEqualTo(groupId).andFileHashEqualTo(fileHash);
         return imageMetaMapper.deleteByExample(example);
+    }
+
+    public int deleteById(Long id) {
+        return imageMetaMapper.deleteByPrimaryKey(id);
+    }
+
+    public int update(Long id, String nickName) {
+        RelativesMeta meta = new RelativesMeta();
+        meta.setName(nickName);
+        meta.setIsCompleted(true);
+        meta.setAnonymousId(0);
+        ImageMetaExample example = new ImageMetaExample();
+        example.createCriteria().andIdEqualTo(id);
+        return imageMetaMapper.updateByExampleSelective(meta, example);
     }
 }

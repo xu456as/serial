@@ -2,7 +2,7 @@ package com.serialgroup.serial.model;
 
 import java.util.Date;
 
-public class ImageMeta {
+public class RelativesMeta {
     private Long id;
 
     private String groupId;
@@ -21,7 +21,7 @@ public class ImageMeta {
 
     private Integer anonymousId;
 
-    public ImageMeta(Long id, String groupId, String name, String fileHash, Date gmtCreate, Date gmtModified, Boolean isCompleted, Integer priority, Integer anonymousId) {
+    public RelativesMeta(Long id, String groupId, String name, String fileHash, Date gmtCreate, Date gmtModified, Boolean isCompleted, Integer priority, Integer anonymousId) {
         this.id = id;
         this.groupId = groupId;
         this.name = name;
@@ -33,7 +33,7 @@ public class ImageMeta {
         this.anonymousId = anonymousId;
     }
 
-    public ImageMeta() {
+    public RelativesMeta() {
         super();
     }
 

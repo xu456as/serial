@@ -1,6 +1,6 @@
 package com.serialgroup.serial.mapper;
 
-import com.serialgroup.serial.model.ImageMeta;
+import com.serialgroup.serial.model.RelativesMeta;
 import com.serialgroup.serial.model.ImageMetaExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
@@ -12,21 +12,21 @@ public interface ImageMetaMapper {
 
     int deleteByPrimaryKey(Long id);
 
-    int insert(ImageMeta row);
+    int insert(RelativesMeta row);
 
-    int insertSelective(ImageMeta row);
+    int insertSelective(RelativesMeta row);
 
-    List<ImageMeta> selectByExample(ImageMetaExample example);
+    List<RelativesMeta> selectByExample(ImageMetaExample example);
 
-    ImageMeta selectByPrimaryKey(Long id);
+    RelativesMeta selectByPrimaryKey(Long id);
 
-    int updateByExampleSelective(@Param("row") ImageMeta row, @Param("example") ImageMetaExample example);
+    int updateByExampleSelective(@Param("row") RelativesMeta row, @Param("example") ImageMetaExample example);
 
-    int updateByExample(@Param("row") ImageMeta row, @Param("example") ImageMetaExample example);
+    int updateByExample(@Param("row") RelativesMeta row, @Param("example") ImageMetaExample example);
 
-    int updateByPrimaryKeySelective(ImageMeta row);
+    int updateByPrimaryKeySelective(RelativesMeta row);
 
-    int updateByPrimaryKey(ImageMeta row);
+    int updateByPrimaryKey(RelativesMeta row);
 
     Integer selectMaxAnonymousId(String groupId);
 }

@@ -5,11 +5,13 @@ import com.serialgroup.serial.manager.FileManager;
 import com.serialgroup.serial.manager.ImageMetaManager;
 import com.serialgroup.serial.manager.UserInfoManager;
 import com.serialgroup.serial.manager.VoiceRecognizeManager;
-import com.serialgroup.serial.model.ImageMeta;
+import com.serialgroup.serial.model.RelativesMeta;
 import com.serialgroup.serial.util.AsrtUtil;
 import com.serialgroup.serial.util.BdVoiceUtil;
 import com.serialgroup.serial.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.tomcat.util.net.NioChannel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.DigestUtils;
@@ -22,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @Slf4j
@@ -29,7 +32,7 @@ import java.util.List;
 public class RelativesController {
 
     @Resource
-    private ImageMetaManager imageMetaManager;
+    private ImageMetaManager relativesMetaManager;
     @Resource
     private UserInfoManager userInfoManager;
 
@@ -40,27 +43,27 @@ public class RelativesController {
     private FileManager fileManager;
 
     @PostMapping(path = "/image/list_all")
-    public ResponseEntity<List<ImageMeta>> listInfo(@RequestHeader String token,
-                                                   @RequestHeader String groupId) {
+    public ResponseEntity<List<RelativesMeta>> listInfo(@RequestHeader String token,
+                                                        @RequestHeader String groupId) {
         validate(token, groupId);
-        List<ImageMeta> imageMetas = imageMetaManager.listImageMetaByToken(groupId);
-        if (!CollectionUtils.isEmpty(imageMetas)) {
-            for (ImageMeta imageMeta : imageMetas) {
-                if (imageMeta.getIsCompleted()) {
+        List<RelativesMeta> relativesMetas = relativesMetaManager.listRelativesMetaByToken(groupId);
+        if (!CollectionUtils.isEmpty(relativesMetas)) {
+            for (RelativesMeta relativesMeta : relativesMetas) {
+                if (relativesMeta.getIsCompleted()) {
                     continue;
                 }
-                imageMeta.setName(String.format("%d号陌生人", imageMeta.getAnonymousId()));
+                relativesMeta.setName(String.format("%d号陌生人", relativesMeta.getAnonymousId()));
             }
         }
-        return ResponseEntity.ok(imageMetas);
+        return ResponseEntity.ok(relativesMetas);
     }
 
     @PostMapping(path = "/image/delete")
     public ResponseEntity<Integer> deleteInfo(@RequestHeader String token,
-                                               @RequestHeader String groupId,
-                                               @RequestParam String fileHash) {
+                                              @RequestHeader String groupId,
+                                              @RequestParam String fileHash) {
         validate(token, groupId);
-        int affectNum = imageMetaManager.delete(groupId, fileHash);
+        int affectNum = relativesMetaManager.delete(groupId, fileHash);
         return ResponseEntity.ok(affectNum);
     }
 
@@ -85,7 +88,7 @@ public class RelativesController {
             return ResponseEntity.badRequest().build();
         }
         fileManager.save(fileHash, bytes);
-        int affectNum = imageMetaManager.addAnonymous(groupId, fileHash);
+        int affectNum = relativesMetaManager.addAnonymous(groupId, fileHash);
         return ResponseEntity.ok(affectNum);
     }
 
@@ -102,7 +105,7 @@ public class RelativesController {
         }
         String name = dto.getName();
         int id = dto.getAnonymousId();
-        int result = imageMetaManager.updateAnonymous(groupId, id, name);
+        int result = relativesMetaManager.updateAnonymous(groupId, id, name);
         return ResponseEntity.ok(result);
 
 //        String nickName = voiceRecognizeManager.recognizeName(voiceInput.getBytes());
@@ -130,14 +133,14 @@ public class RelativesController {
         }
         String fileHash = DigestUtils.md5DigestAsHex(file.getBytes());
         fileManager.save(fileHash, file.getBytes());
-        int affectNum = imageMetaManager.addImage(groupId, fileHash, nickName);
+        int affectNum = relativesMetaManager.addImage(groupId, fileHash, nickName);
         return ResponseEntity.ok(affectNum);
     }
 
     @PostMapping(path = "/image/recognizeAnonymousStg1")
     public ResponseEntity<AnonymityMatchDTO> recognizeAnonymousStg1(@RequestHeader String token,
-                                                   @RequestHeader String groupId,
-                                                   @RequestPart("voiceInput") MultipartFile file) throws Exception {
+                                                                    @RequestHeader String groupId,
+                                                                    @RequestPart("voiceInput") MultipartFile file) throws Exception {
         validate(token, groupId);
         byte[] bytes = file.getBytes();
         AnonymityMatchDTO dto = BdVoiceUtil.INST.recognizeAnonymity(bytes, 16000, 1, 2);
@@ -146,14 +149,14 @@ public class RelativesController {
 
     @PostMapping(path = "/image/recognizeAnonymousStg2")
     public ResponseEntity<Integer> recognizeAnonymousStg2(@RequestHeader String token,
-                                                                    @RequestHeader String groupId,
-                                                                    @RequestParam("name") String name,
-                                                                    @RequestParam("anonymousId") Integer anonymousId,
-                                                                    @RequestParam("ack") Boolean ack) throws Exception {
+                                                          @RequestHeader String groupId,
+                                                          @RequestParam("name") String name,
+                                                          @RequestParam("anonymousId") Integer anonymousId,
+                                                          @RequestParam("ack") Boolean ack) throws Exception {
         validate(token, groupId);
         int affectNum = 0;
         if (ack) {
-            affectNum = imageMetaManager.updateAnonymous(groupId, anonymousId, name);
+            affectNum = relativesMetaManager.updateAnonymous(groupId, anonymousId, name);
         }
         return ResponseEntity.ok(affectNum);
     }
@@ -161,30 +164,53 @@ public class RelativesController {
     @RequestMapping("/image/uploadWx")
     @ResponseBody
     public ResponseEntity<Integer> uploadInfo(@RequestHeader String token,
-                                          @RequestHeader String groupId,
-                                          @RequestParam("nickName") String nickName,
-                                          @RequestPart("image") MultipartFile file) throws Exception {
+                                              @RequestHeader String groupId,
+                                              @RequestParam("nickName") String nickName,
+                                              @RequestPart("image") MultipartFile file) throws Exception {
         validate(token, groupId);
         byte[] bytes = file.getBytes();
         String fileHash = DigestUtils.md5DigestAsHex(bytes);
         fileManager.save(fileHash, bytes);
-        int affectNum = imageMetaManager.addImage(groupId, fileHash, nickName);
+        int affectNum = relativesMetaManager.addImage(groupId, fileHash, nickName);
         return ResponseEntity.ok(affectNum);
     }
 
     @RequestMapping("/image/updateWx")
     @ResponseBody
     public ResponseEntity<Integer> updateInfo(@RequestHeader String token,
-                                          @RequestHeader String groupId,
-                                              Long id,
-                                          @RequestParam("nickName") String nickName,
-                                          @RequestPart("image") MultipartFile file) throws Exception {
+                                              @RequestHeader String groupId,
+                                              @RequestParam("id") Long id,
+                                              @RequestParam(value = "nickName", required = false) String nickName,
+                                              @RequestPart(value = "image", required = false) MultipartFile file) throws Exception {
         validate(token, groupId);
-        byte[] bytes = file.getBytes();
-        String fileHash = DigestUtils.md5DigestAsHex(bytes);
-        fileManager.save(fileHash, bytes);
-        int affectNum = imageMetaManager.addImage(groupId, fileHash, nickName);
-        return ResponseEntity.ok(affectNum);
+        byte[] bytes = null;
+        String fileHash = null;
+        RelativesMeta oldMeta = relativesMetaManager.getById(id);
+        if (oldMeta == null) {
+            return ResponseEntity.ok(0);
+        }
+        if (StringUtils.isBlank(nickName)) {
+            nickName = null;
+        }
+        String name = Optional.ofNullable(nickName).orElse(getName(oldMeta));
+        if (file != null) {
+            bytes = file.getBytes();
+            fileHash =  DigestUtils.md5DigestAsHex(bytes);
+            fileManager.save(fileHash, bytes);
+            int affectNum = relativesMetaManager.addImage(groupId, fileHash, name);
+            affectNum += relativesMetaManager.deleteById(id);
+            return ResponseEntity.ok(affectNum);
+        } else {
+            int affectNum = relativesMetaManager.update(id, name);
+            return ResponseEntity.ok(affectNum);
+        }
+    }
+
+    private String getName(RelativesMeta meta) {
+        if (meta.getIsCompleted()) {
+            return meta.getName();
+        }
+        return String.format("%d号陌生人", meta.getAnonymousId());
     }
 
     @RequestMapping("/image/uploadWx0")

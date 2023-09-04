@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.serialgroup.serial.mapper.ImageMetaMapper">
-  <resultMap id="BaseResultMap" type="com.serialgroup.serial.model.ImageMeta">
+  <resultMap id="BaseResultMap" type="com.serialgroup.serial.model.RelativesMeta">
     <constructor>
       <idArg column="id" javaType="Long" jdbcType="BIGINT" />
       <arg column="group_id" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -106,7 +106,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.serialgroup.serial.model.ImageMeta" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.serialgroup.serial.model.RelativesMeta" useGeneratedKeys="true">
     insert into image_meta (group_id, name, file_hash, 
       gmt_create, gmt_modified, is_completed, 
       priority, anonymous_id)
@@ -114,7 +114,7 @@
       #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{isCompleted,jdbcType=TINYINT}, 
       #{priority,jdbcType=INTEGER}, #{anonymousId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.serialgroup.serial.model.ImageMeta" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.serialgroup.serial.model.RelativesMeta" useGeneratedKeys="true">
     insert into image_meta
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="groupId != null">
@@ -225,7 +225,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.serialgroup.serial.model.ImageMeta">
+  <update id="updateByPrimaryKeySelective" parameterType="com.serialgroup.serial.model.RelativesMeta">
     update image_meta
     <set>
       <if test="groupId != null">
@@ -255,7 +255,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.serialgroup.serial.model.ImageMeta">
+  <update id="updateByPrimaryKey" parameterType="com.serialgroup.serial.model.RelativesMeta">
     update image_meta
     set group_id = #{groupId,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
